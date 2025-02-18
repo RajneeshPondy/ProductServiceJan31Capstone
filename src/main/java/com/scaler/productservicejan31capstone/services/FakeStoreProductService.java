@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService {
 
     RestTemplate restTemplate;
@@ -31,15 +31,10 @@ public class FakeStoreProductService implements ProductService {
         return fakeStoreProductDto.toProduct();
     }
     
-    public List<Product> getAllProducts() throws ProductNotFoundException {
+    public List<Product> getAllProducts(){
         FakeStoreProductDto[] fakeStoreProductDtos = restTemplate.getForObject("https://fakestoreapi.com/products",
                 FakeStoreProductDto[].class);
         List<Product> products= new ArrayList<>();
-
-        if(fakeStoreProductDtos == null)
-        {
-            throw new ProductNotFoundException("Product list is empty");
-        }
 
         for (FakeStoreProductDto fakeStoreProductDto : fakeStoreProductDtos) {
             Product product= fakeStoreProductDto.toProduct();
